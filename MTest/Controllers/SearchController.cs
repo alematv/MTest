@@ -12,21 +12,24 @@ using MTest.Models.Search;
 
 namespace MTest.Controllers
 {
-    public class HomeController : Controller
+    public class SearchController : Controller
     {
-        public async Task<IActionResult> Index([FromServices] IEnumerable<ISearchService> searchServices)
+        public IActionResult Index()
         {
+            return View();
+        }
 
+        public async Task<IActionResult> Search([FromServices] IEnumerable<ISearchService> searchServices, [FromQuery] string q)
+        {
             var tasks = new List<Task<SearchQueryResult>>();
             foreach (var service in searchServices)
             {
-                tasks.Add(service.Query("coffee"));
+                tasks.Add(service.Query(q));
             }
-
 
             var result = await tasks.ElementAt(Task.WaitAny(tasks.ToArray()));
 
-            return View(result);
+            return Json(result);
         }
 
         public IActionResult Privacy()

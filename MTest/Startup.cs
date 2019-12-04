@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MTest.Services.Search;
+using MTest.Services.Search.Abstraction;
 
 namespace MTest
 {
@@ -31,6 +33,11 @@ namespace MTest
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //services.AddScoped<ISearchService, GoogleSearchService>();
+            services.AddScoped<ISearchService, BingSearchService>();
+            //services.AddScoped<ISearchService, YandexSearchService>();
+            //services.AddScoped<ISearchService, GoogleDirectSearchService>();
+            //services.AddScoped<ISearchService, BingDirectSearchService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -56,8 +63,12 @@ namespace MTest
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "search",
+                    template: "search",
+                    defaults: new { controller = "search", action = "search" });
+                routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Search}/{action=Index}/{id?}");
             });
         }
     }

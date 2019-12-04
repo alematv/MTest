@@ -4,15 +4,68 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>@Model.EngineName</h1>
-<h2>@Model.Query</h2>
-<h3>@Model.Time</h3>
+<div class="row p-3 justify-content-center">
+    <input id="query" class="col-9" type="text" placeholder="Type request..."/>
+    <input id="btn-search" type="button" class="btn btn-primary col-1 ml-2" value="Search" />
+</div>
 
-@foreach (var result in Model.Results)
-{
-    <div>
-        <div><a href="@result.Link">@result.Name</a></div>
-        <div>@result.Description</div>
+<div class="row px-3">
+            Search engine used:&nbsp;<span id="engine-name"></span>
+</div>
+<div  class="row px-3">
+    Query:&nbsp;<span id="searched-query"></span>
+</div>
+<div  class="row px-3">
+    Elapsed time:&nbsp;<span id="elapsed-time"></span>ms
+</div>
+<div class="row p-3">
+    <div id="results" class="container">
+
     </div>
-}
+</div>
 
+@section Scripts {
+
+<script>
+    $("#btn-search").on('click', function (e) {
+        var q = $("#query").val();
+        $.getJSON("/search?q=" + q, function (json) {
+            $("#engine-name").text(json.engineName);
+            $("#searched-query").text(json.query);
+            $("#elapsed-time").text(json.time);
+
+            var resultContainer = $("#results");
+            resultContainer.empty();
+
+            for (var i = 0; i < json.results.length; i++)
+            {
+                var div = $('<div/>', {
+                    class: 'row py-1'
+                });
+                var container = $('<div/>', {
+                    class: 'container'
+                });
+                var aContainer = $('<div/>', {
+                    class: 'row'
+                });
+                var a = $('<a/>', {
+                    text: json.results[i].name,
+                    href: json.results[i].link
+                });
+                var desc = $('<div/>', {
+                    class: 'row',
+                    text: json.results[i].description
+                });
+
+                aContainer.append(a);
+
+                container.append(aContainer);
+                container.append(desc);
+                div.append(container);
+                resultContainer.append(div);
+            }
+        })
+    });
+</script>
+
+}

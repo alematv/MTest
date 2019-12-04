@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MTest.Models
+namespace MTest.Models.Search
 {
     public class SearchResult
     {

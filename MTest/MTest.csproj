@@ -12,6 +12,15 @@
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.42.0.1369" />
+    <PackageReference Include="AngleSharp" Version="0.13.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\Search\" />
+    <Folder Include="Services\Search\Abstraction\" />
+    <Folder Include="Models\Search\" />
+  </ItemGroup>
 </Project>
