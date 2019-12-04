@@ -1,0 +1,18 @@
+﻿@model SearchQueryResult
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>@Model.EngineName</h1>
+<h2>@Model.Query</h2>
+<h3>@Model.Time</h3>
+
+@foreach (var result in Model.Results)
+{
+    <div>
+        <div><a href="@result.Link">@result.Name</a></div>
+        <div>@result.Description</div>
+    </div>
+}
+
