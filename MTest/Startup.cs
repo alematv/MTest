@@ -29,10 +29,13 @@ namespace MTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Contexts.MAppContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("Default")));
-            
-            services.AddScoped<ISearchService, GoogleSearchService>();
-            services.AddScoped<ISearchService, BingSearchService>();
-            services.AddScoped<ISearchService, YandexSearchService>(prov => new YandexSearchService(new System.Net.Http.HttpClient()));
+
+            if (Configuration.GetValue<bool>("SearchServices:Google:Use"))
+                services.AddScoped<ISearchService, GoogleSearchService>();
+            if (Configuration.GetValue<bool>("SearchServices:Bing:Use"))
+                services.AddScoped<ISearchService, BingSearchService>();
+            if (Configuration.GetValue<bool>("SearchServices:Yandex:Use"))
+                services.AddScoped<ISearchService, YandexSearchService>(prov => new YandexSearchService(new System.Net.Http.HttpClient()));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(

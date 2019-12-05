@@ -1,13 +1,15 @@
 {
   "SearchServices": {
     "Yandex": {
-
+      "Use": false
     },
     "Google": {
+      "Use": true,
       "Apikey": "AIzaSyDaJLyHRNvW9Dc_bhxm8xTzi303Qj4Lg2o",
       "Cx": "011022193827330508819:voijoviygb8"
     },
     "Bing": {
+      "Use":  true,
       "Apikey": "c5149d7113864624a172a8161fed37d2"
     }
   }
