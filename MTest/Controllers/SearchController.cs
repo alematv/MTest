@@ -38,6 +38,7 @@ namespace MTest.Controllers
             var result = await ctx.SearchResults
                                 .Include(sr => sr.SearchQueryResult)
                                 .Where(sr => sr.Name.Contains(q) || sr.Description.Contains(q))
+                                .OrderByDescending(sr => sr.SearchQueryResult.TimeTaken)
                                 .ToListAsync();
 
             return Json(result);
