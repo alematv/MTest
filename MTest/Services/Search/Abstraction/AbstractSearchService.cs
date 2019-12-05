@@ -20,10 +20,11 @@ namespace MTest.Services.Search.Abstraction
         {
             stopwatch.Start();
 
-            var res = new SearchQueryResult() { EngineName = engineName, Query = query, Results = (await GetResults(query)).Take(10) };
+            var res = new SearchQueryResult() { EngineName = engineName, Query = query, Results = (await GetResults(query)).Take(10).ToList() };
 
             stopwatch.Stop();
             res.Time = stopwatch.ElapsedMilliseconds;
+            res.TimeTaken = DateTime.Now;
 
             return res;
         }

@@ -11,6 +11,10 @@ namespace MTest.Services.Search
 {
     public class YandexSearchService : Abstraction.AbstractDirectSearchService
     {
+        public YandexSearchService(HttpClient client) : base(client)
+        {
+        }
+
         protected override string searchEngineName => "yandex";
 
         protected override IEnumerable<SearchResult> GetSearches(IHtmlDocument doc)
@@ -18,6 +22,7 @@ namespace MTest.Services.Search
             var result = new List<SearchResult>();
 
             var organic = doc.GetElementsByClassName("organic");
+            var i = 0;
             foreach (var org in organic)
             {
                 var title = org.GetElementsByClassName("organic__url-text").FirstOrDefault()?.TextContent;
@@ -37,8 +42,9 @@ namespace MTest.Services.Search
                     Link = link,
                     Name = title,
                     Description = desc,
-                    Position = 0
+                    Position = i
                 });
+                i++;
             }
 
             return result;

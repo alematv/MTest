@@ -1,0 +1,14 @@
+{
+  "SearchServices": {
+    "Yandex": {
+
+    },
+    "Google": {
+      "Apikey": "AIzaSyDLn7r_DCb6HewQBhvOshC0htdHDyV2Rwg",
+      "Cx": "004762094579864221485:30x4idfuk6m"
+    },
+    "Bing": {
+      "Apikey": "8d113dd734d34df3a72bde01ed54036e"
+    }
+  }
+}

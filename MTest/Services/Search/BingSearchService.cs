@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AngleSharp.Html.Dom;
 
 using Microsoft.Azure.CognitiveServices.Search.WebSearch;
+using Microsoft.Extensions.Configuration;
 using MTest.Models.Search;
 using MTest.Services.Search.Abstraction;
 
@@ -15,9 +16,9 @@ namespace MTest.Services.Search
 
         protected override string engineName => "bing";
 
-        public BingSearchService()
+        public BingSearchService(IConfiguration conf)
         {
-            client = new WebSearchClient(new ApiKeyServiceClientCredentials("8d113dd734d34df3a72bde01ed54036e"));
+            client = new WebSearchClient(new ApiKeyServiceClientCredentials(conf.GetValue<string>("SearchServices:Bing:ApiKey")));
         }
 
         protected override async Task<IEnumerable<SearchResult>> GetResults(string query)

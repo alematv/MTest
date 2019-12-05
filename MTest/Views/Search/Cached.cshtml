@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Cached search";
+}
+
+<div class="row px-5 py-1 justify-content-end">
+    <a asp-action="Index">Go to live search</a>
+</div>
+<div class="container">
+    <div class="row p-3 justify-content-center">
+
+        <input id="query" class="col-9" type="text" placeholder="Type request..." />
+        <input id="btn-search" type="button" class="btn btn-primary col-1 ml-2" value="Search" />
+    </div>
+
+    <div class="row p-3">
+        <div id="results" class="container">
+
+        </div>
+    </div>
+</div>
+
+    @section Scripts {
+
+        <script>
+            $("#btn-search").on('click', function (e) {
+                var q = $("#query").val();
+                $.getJSON("/search/cachedSearch?q=" + q, function (json) {
+                    
+                    var resultContainer = $("#results");
+                    resultContainer.empty();
+
+                    for (var i = 0; i < json.length; i++) {
+                        var div = $('<div/>', {
+                            class: 'row py-1'
+                        });
+                        var container = $('<div/>', {
+                            class: 'container'
+                        });
+                        var aContainer = $('<div/>', {
+                            class: 'row'
+                        });
+                        var a = $('<a/>', {
+                            text: json[i].name,
+                            href: json[i].link
+                        });
+                        var desc = $('<div/>', {
+                            class: 'row',
+                            text: json[i].description
+                        });
+                        var engineDesc = $('<div/>', {
+                            class: 'row font-weight-bold',
+                            text: "Found via: " + json[i].searchQueryResult.engineName + " for query: " + json[i].searchQueryResult.query + ", time: " + json[i].searchQueryResult.time + "ms, at: " + json[i].searchQueryResult.timeTaken
+                        });
+
+                        aContainer.append(a);
+
+                        container.append(aContainer);
+                        container.append(desc);
+                        container.append(engineDesc);
+                        div.append(container);
+                        resultContainer.append(div);
+                    }
+                })
+            });
+        </script>
+
+    }

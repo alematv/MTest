@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AngleSharp.Html.Dom;
+using Microsoft.Extensions.Configuration;
 using MTest.Models.Search;
 
 namespace MTest.Services.Search
@@ -11,13 +10,15 @@ namespace MTest.Services.Search
         protected override string engineName => "google";
 
         private Google.Apis.Customsearch.v1.CustomsearchService service;
+        private string CxId;
 
-        public GoogleSearchService()
+        public GoogleSearchService(IConfiguration conf)
         {
             service = new Google.Apis.Customsearch.v1.CustomsearchService(new Google.Apis.Services.BaseClientService.Initializer()
             {
-                ApiKey = "AIzaSyDLn7r_DCb6HewQBhvOshC0htdHDyV2Rwg"
+                ApiKey = conf.GetValue<string>("SearchServices:Google:ApiKey")
             });
+            CxId = conf.GetValue<string>("SearchServices:Google:Cx");
         }
 
         protected override async Task<IEnumerable<SearchResult>> GetResults(string query)
@@ -25,7 +26,7 @@ namespace MTest.Services.Search
             var result = new List<SearchResult>();
 
             var request = service.Cse.List(query);
-            request.Cx = "004762094579864221485:30x4idfuk6m";
+            request.Cx = CxId;
 
             var response = await request.ExecuteAsync();
 

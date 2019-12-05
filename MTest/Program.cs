@@ -19,6 +19,10 @@ namespace MTest
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("searchservices.json", false);
+                })
                 .UseStartup<Startup>();
     }
 }
